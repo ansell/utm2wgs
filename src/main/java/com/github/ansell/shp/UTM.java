@@ -98,12 +98,13 @@ public class UTM {
         northing = Double.parseDouble(parts[3]);
     }
 
-    public UTM(WGS84 wgs) {
-        fromWGS84(wgs.getLatitude(), wgs.getLongitude());
+    public static UTM fromWGS84(WGS84 wgs) {
+        return fromWGS84(wgs.getLatitude(), wgs.getLongitude());
     }
 
-    private void fromWGS84(double latitude, double longitude) {
-        zone = (int) Math.floor(longitude / 6 + 31);
+    public static UTM fromWGS84(double latitude, double longitude) {
+        int zone = (int) Math.floor(longitude / 6 + 31);
+        char letter;
         if (latitude < -72)
             letter = 'C';
         else if (latitude < -64)
@@ -144,7 +145,7 @@ public class UTM {
             letter = 'W';
         else
             letter = 'X';
-        easting = 0.5
+        double easting = 0.5
                 * Math.log((1 + Math.cos(latitude * Math.PI / 180)
                         * Math.sin(longitude * Math.PI / 180 - (6 * zone - 183) * Math.PI / 180))
                         / (1 - Math.cos(latitude * Math.PI / 180) * Math
@@ -162,7 +163,7 @@ public class UTM {
                         2) * Math.pow(Math.cos(latitude * Math.PI / 180), 2) / 3)
                 + 500000;
         easting = Math.round(easting * 100) * 0.01;
-        northing = (Math
+        double northing = (Math
                 .atan(Math.tan(latitude * Math.PI / 180)
                         / Math.cos((longitude * Math.PI / 180 - (6 * zone - 183) * Math.PI / 180)))
                 - latitude * Math.PI / 180) * 0.9996
@@ -206,6 +207,8 @@ public class UTM {
         if (letter < 'M')
             northing = northing + 10000000;
         northing = Math.round(northing * 100) * 0.01;
+
+        return new UTM(zone, letter, easting, northing);
     }
 
 }

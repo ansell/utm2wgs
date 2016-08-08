@@ -50,14 +50,12 @@ public class WGS84 {
         this.longitude = longitude;
     }
 
-    public WGS84(UTM utm) {
-        fromUTM(utm.getZone(), utm.getLetter(), utm.getEasting(), utm.getNorthing());
-    }
-
     public String toString() {
-        char ns = (latitude < 0) ? 'S' : 'N';
-        char ew = (longitude < 0) ? 'W' : 'E';
-        return String.format("%s%c %s%c", Math.abs(latitude), ns, Math.abs(longitude), ew);
+        // char ns = (latitude < 0) ? 'S' : 'N';
+        // char ew = (longitude < 0) ? 'W' : 'E';
+        // return String.format("%s%c %s%c", Math.abs(latitude), ns,
+        // Math.abs(longitude), ew);
+        return String.format("%s %s", latitude, longitude);
     }
 
     @Override
@@ -77,7 +75,12 @@ public class WGS84 {
         return (int) (x ^ (x >>> 32));
     }
 
-    private void fromUTM(int zone, char letter, double easting, double northing) {
+    public static WGS84 fromUTM(UTM utmValue) {
+        return fromUTM(utmValue.getZone(), utmValue.getLetter(), utmValue.getEasting(),
+                utmValue.getNorthing());
+    }
+
+    public static WGS84 fromUTM(int zone, char letter, double easting, double northing) {
         double north;
         if (letter > 'M') {
             north = northing;
@@ -85,7 +88,7 @@ public class WGS84 {
             north = northing - 10000000;
         }
 
-        latitude = (north / 6366197.724
+        double latitude = (north / 6366197.724
                 / 0.9996
                 + (1
                         + 0.006739496742 * Math.pow(Math.cos(north / 6366197.724 / 0.9996),
@@ -505,11 +508,12 @@ public class WGS84 {
         latitude = Math.round(latitude * 10000000);
         latitude = latitude / 10000000;
 
-        longitude = Math
+        double longitude = Math
                 .atan((Math
-                        .exp((easting - 500000) / (0.9996 * 6399593.625
-                                / Math.sqrt((1 + 0.006739496742 * Math
-                                        .pow(Math.cos(north / 6366197.724 / 0.9996), 2))))
+                        .exp((easting - 500000)
+                                / (0.9996 * 6399593.625
+                                        / Math.sqrt((1 + 0.006739496742 * Math.pow(
+                                                Math.cos(north / 6366197.724 / 0.9996), 2))))
                                 * (1 - 0.006739496742
                                         * Math.pow((easting - 500000) / (0.9996 * 6399593.625
                                                 / Math.sqrt((1 + 0.006739496742 * Math.pow(
@@ -586,5 +590,7 @@ public class WGS84 {
                 * 180 / Math.PI + zone * 6 - 183;
         longitude = Math.round(longitude * 10000000);
         longitude = longitude / 10000000;
+
+        return new WGS84(latitude, longitude);
     }
 }
