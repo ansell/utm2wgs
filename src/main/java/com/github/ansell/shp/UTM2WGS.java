@@ -60,8 +60,14 @@ public class UTM2WGS {
             return;
         }
 
-        System.out.println(
-                WGS84.fromUTM(utmZoneOpt.value(options), utmLetterOpt.value(options).charAt(0),
-                        utmEastingOpt.value(options), utmNorthingOpt.value(options)));
+        WGS84 fromUTM = WGS84.fromUTM(utmZoneOpt.value(options),
+                utmLetterOpt.value(options).charAt(0), utmEastingOpt.value(options),
+                utmNorthingOpt.value(options));
+
+        if (printWkt.value(options)) {
+            System.out.println(fromUTM.toWKT());
+        } else {
+            System.out.println(fromUTM.toString());
+        }
     }
 }

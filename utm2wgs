@@ -1,0 +1,15 @@
+#!/bin/bash
+# This script runs the UTM to WGS code.
+# Before running this script for the first time 
+# you may need to run:
+#     chmod +x utm2wgs
+#
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if [ ! -d "${DIR}/target/appassembler/bin" ]; then
+    (cd ${DIR} && mvn -quiet clean install -DskipTests -Djetty.skip)
+fi
+
+chmod u+x `ls ${DIR}/target/appassembler/bin/*`
+$DIR/target/appassembler/bin/utm2wgs "$@"

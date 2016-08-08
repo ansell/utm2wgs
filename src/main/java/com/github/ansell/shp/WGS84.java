@@ -593,4 +593,8 @@ public class WGS84 {
 
         return new WGS84(latitude, longitude);
     }
+
+    public String toWKT() {
+        return "POINT( " + longitude + " " + latitude + " )";
+    }
 }
