@@ -43,7 +43,7 @@ public class UTM2WGS {
         final OptionSpec<Double> utmNorthingOpt = parser.acceptsAll(Arrays.asList("n", "northing"))
                 .withRequiredArg().ofType(Double.class).required().describedAs("The UTM Northing");
         final OptionSpec<Boolean> printWkt = parser.accepts("output-wkt").withOptionalArg()
-                .ofType(Boolean.class).defaultsTo(Boolean.FALSE).describedAs("Output WKT version");
+                .ofType(Boolean.class).defaultsTo(Boolean.TRUE).describedAs("Output WKT version");
 
         OptionSet options = null;
 
@@ -64,7 +64,7 @@ public class UTM2WGS {
                 utmLetterOpt.value(options).charAt(0), utmEastingOpt.value(options),
                 utmNorthingOpt.value(options));
 
-        if (printWkt.value(options)) {
+        if (options.has(printWkt) && printWkt.value(options)) {
             System.out.println(fromUTM.toWKT());
         } else {
             System.out.println(fromUTM.toString());
