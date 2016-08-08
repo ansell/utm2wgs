@@ -24,26 +24,20 @@ import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 
 /**
- * Tool for converting from UTM coordinates to WGS decimal coordinates.
+ * Tool for converting from WGS decimal coordinates to UTM coordinates.
  * 
  * @author Peter Ansell p_ansell@yahoo.com
  */
-public class UTM2WGS {
+public class WGS2UTM {
 
     public static void main(String... args) throws Exception {
         final OptionParser parser = new OptionParser();
 
         final OptionSpec<Void> help = parser.accepts("help").forHelp();
-        final OptionSpec<Integer> utmZoneOpt = parser.acceptsAll(Arrays.asList("z", "zone"))
-                .withRequiredArg().ofType(Integer.class).required().describedAs("The UTM Zone");
-        final OptionSpec<String> utmLetterOpt = parser.acceptsAll(Arrays.asList("l", "letter"))
-                .withRequiredArg().ofType(String.class).required().describedAs("The UTM Letter");
-        final OptionSpec<Double> utmEastingOpt = parser.acceptsAll(Arrays.asList("e", "easting"))
-                .withRequiredArg().ofType(Double.class).required().describedAs("The UTM Easting");
-        final OptionSpec<Double> utmNorthingOpt = parser.acceptsAll(Arrays.asList("n", "northing"))
-                .withRequiredArg().ofType(Double.class).required().describedAs("The UTM Northing");
-        final OptionSpec<Boolean> printWkt = parser.accepts("output-wkt").withOptionalArg()
-                .ofType(Boolean.class).defaultsTo(Boolean.TRUE).describedAs("Output WKT version");
+        final OptionSpec<Double> wgsLongitudeOpt = parser.acceptsAll(Arrays.asList("longitude"))
+                .withRequiredArg().ofType(Double.class).required().describedAs("The WGS Longitude");
+        final OptionSpec<Double> wgsLatitudeOpt = parser.acceptsAll(Arrays.asList("latitude"))
+                .withRequiredArg().ofType(Double.class).required().describedAs("The WGS Latitude");
 
         OptionSet options = null;
 
@@ -60,14 +54,8 @@ public class UTM2WGS {
             return;
         }
 
-        WGS84 fromUTM = WGS84.fromUTM(utmZoneOpt.value(options),
-                utmLetterOpt.value(options).charAt(0), utmEastingOpt.value(options),
-                utmNorthingOpt.value(options));
+        UTM fromWGS = UTM.fromWGS84(wgsLatitudeOpt.value(options), wgsLongitudeOpt.value(options));
 
-        if (options.has(printWkt) && printWkt.value(options)) {
-            System.out.println(fromUTM.toWKT());
-        } else {
-            System.out.println(fromUTM.toString());
-        }
+        System.out.println(fromWGS.toString());
     }
 }
