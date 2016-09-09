@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.ansell.shp</groupId>
 	<artifactId>utm2wgs</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>UTM to WGS84 converter</name>
 	<description>Converter for UTM to WGS84 and vice-versa</description>
 	<packaging>jar</packaging>
