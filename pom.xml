@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.github.ansell</groupId>
 		<artifactId>parentpom</artifactId>
-		<version>6</version>
+		<version>10</version>
 	</parent>
 
 	<groupId>com.github.ansell.shp</groupId>
@@ -165,7 +165,7 @@
                 <repository>
                         <id>maven2-repository.dev.java.net</id>
                         <name>Java.net repository</name>
-                        <url>http://download.java.net/maven/2</url>
+                        <url>https://maven.java.net/content/groups/public/</url>
                 </repository>
 		<repository>
 			<id>osgeo</id>
