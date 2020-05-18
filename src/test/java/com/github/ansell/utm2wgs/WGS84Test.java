@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.ansell.shp;
+package com.github.ansell.utm2wgs;
 
 import static org.junit.Assert.*;
 
@@ -23,6 +23,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.github.ansell.utm2wgs.WGS84;
 
 /**
  * Tests for {@link WGS84}.
@@ -52,7 +54,7 @@ public class WGS84Test {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.WGS84#getLatitude()}.
+     * Test method for {@link com.github.ansell.utm2wgs.WGS84#getLatitude()}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -61,7 +63,7 @@ public class WGS84Test {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.WGS84#getLongitude()}.
+     * Test method for {@link com.github.ansell.utm2wgs.WGS84#getLongitude()}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -70,7 +72,7 @@ public class WGS84Test {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.WGS84#WGS84(double, double)}
+     * Test method for {@link com.github.ansell.utm2wgs.WGS84#WGS84(double, double)}
      * .
      */
     @Ignore("TODO: Implement me!")
@@ -80,7 +82,7 @@ public class WGS84Test {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.WGS84#toString()}.
+     * Test method for {@link com.github.ansell.utm2wgs.WGS84#toString()}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -90,7 +92,7 @@ public class WGS84Test {
 
     /**
      * Test method for
-     * {@link com.github.ansell.shp.WGS84#fromUTM(com.github.ansell.shp.UTM)}.
+     * {@link com.github.ansell.utm2wgs.WGS84#fromUTM(com.github.ansell.utm2wgs.UTM)}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -100,7 +102,7 @@ public class WGS84Test {
 
     /**
      * Test method for
-     * {@link com.github.ansell.shp.WGS84#fromUTM(int, char, double, double)}.
+     * {@link com.github.ansell.utm2wgs.WGS84#fromUTM(int, char, double, double)}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -109,7 +111,7 @@ public class WGS84Test {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.WGS84#toWKT()}.
+     * Test method for {@link com.github.ansell.utm2wgs.WGS84#toWKT()}.
      */
     @Ignore("TODO: Implement me!")
     @Test

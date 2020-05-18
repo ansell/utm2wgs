@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.github.ansell.shp;
+package com.github.ansell.utm2wgs;
 
 import static org.junit.Assert.*;
 
@@ -24,38 +24,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
-import org.geotools.referencing.ReferencingFactoryFinder;
-import org.geotools.referencing.factory.ReferencingFactoryContainer;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.opengis.geometry.Geometry;
-import org.opengis.parameter.ParameterDescriptorGroup;
-import org.opengis.parameter.ParameterValueGroup;
-import org.opengis.referencing.ReferenceIdentifier;
+import org.locationtech.jts.geom.Coordinate;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
-import org.opengis.referencing.crs.GeographicCRS;
-import org.opengis.referencing.crs.ProjectedCRS;
-import org.opengis.referencing.cs.CartesianCS;
-import org.opengis.referencing.operation.Conversion;
-import org.opengis.referencing.operation.CoordinateOperationFactory;
 import org.opengis.referencing.operation.MathTransform;
-import org.opengis.referencing.operation.MathTransformFactory;
-import org.opengis.referencing.operation.OperationMethod;
-import org.opengis.util.GenericName;
-import org.opengis.util.InternationalString;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Envelope;
+import com.github.ansell.utm2wgs.UTM;
 
 /**
  * Tests for {@link UTM}.
@@ -86,7 +66,7 @@ public class UTMTest {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.UTM#getEasting()}.
+     * Test method for {@link com.github.ansell.utm2wgs.UTM#getEasting()}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -95,7 +75,7 @@ public class UTMTest {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.UTM#getNorthing()}.
+     * Test method for {@link com.github.ansell.utm2wgs.UTM#getNorthing()}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -104,7 +84,7 @@ public class UTMTest {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.UTM#getZone()}.
+     * Test method for {@link com.github.ansell.utm2wgs.UTM#getZone()}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -113,7 +93,7 @@ public class UTMTest {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.UTM#getLetter()}.
+     * Test method for {@link com.github.ansell.utm2wgs.UTM#getLetter()}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -122,7 +102,7 @@ public class UTMTest {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.UTM#toString()}.
+     * Test method for {@link com.github.ansell.utm2wgs.UTM#toString()}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -132,7 +112,7 @@ public class UTMTest {
 
     /**
      * Test method for
-     * {@link com.github.ansell.shp.UTM#UTM(int, char, double, double)}.
+     * {@link com.github.ansell.utm2wgs.UTM#UTM(int, char, double, double)}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -141,7 +121,7 @@ public class UTMTest {
     }
 
     /**
-     * Test method for {@link com.github.ansell.shp.UTM#UTM(java.lang.String)}.
+     * Test method for {@link com.github.ansell.utm2wgs.UTM#UTM(java.lang.String)}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -151,7 +131,7 @@ public class UTMTest {
 
     /**
      * Test method for
-     * {@link com.github.ansell.shp.UTM#fromWGS84(com.github.ansell.shp.WGS84)}.
+     * {@link com.github.ansell.utm2wgs.UTM#fromWGS84(com.github.ansell.utm2wgs.WGS84)}.
      */
     @Ignore("TODO: Implement me!")
     @Test
@@ -161,7 +141,7 @@ public class UTMTest {
 
     /**
      * Test method for
-     * {@link com.github.ansell.shp.UTM#fromWGS84(double, double)}.
+     * {@link com.github.ansell.utm2wgs.UTM#fromWGS84(double, double)}.
      */
     @Ignore("The TMcoords.dat uses false easting = 0 and false northing = 0, which aren't supported here yet.")
     @Test
@@ -202,54 +182,17 @@ public class UTMTest {
         CoordinateReferenceSystem targetCRS = CRS.decode("EPSG:32632");
         MathTransform transform = CRS.findMathTransform(sourceCRS, targetCRS, false);
         //Envelope sourceGeometry = new Envelope(new Coordinate(-34.8290148, 150.6009081));
-        com.vividsolutions.jts.geom.Geometry sourceGeometry = null;
+        org.locationtech.jts.geom.Geometry sourceGeometry = null;
         
-        com.vividsolutions.jts.geom.Geometry targetGeometry = JTS.transform( sourceGeometry, transform);
+        org.locationtech.jts.geom.Geometry targetGeometry = JTS.transform( sourceGeometry, transform);
         System.out.println(targetGeometry);
     }
     
-    /**
-     * Geotools method derived from https://stackoverflow.com/a/176925/638674
-     */
-    @Ignore
     @Test
-    public final void testGeotoolsUTMMethod2() throws Exception {
-        double utmZoneCenterLongitude = -123; // Center lon of zone, example:
-                                              // zone 10 = -123
-        int zoneNumber = 10; // zone number, example: 10
-        double latitude = 0;
-        double longitude = 0; // lat, lon in degrees
-
-        MathTransformFactory mtFactory = ReferencingFactoryFinder.getMathTransformFactory(null);
-        ReferencingFactoryContainer factories = new ReferencingFactoryContainer(null);
-
-        GeographicCRS geoCRS = org.geotools.referencing.crs.DefaultGeographicCRS.WGS84;
-        CartesianCS cartCS = org.geotools.referencing.cs.DefaultCartesianCS.GENERIC_2D;
-
-        ParameterValueGroup parameters = mtFactory.getDefaultParameters("Transverse_Mercator");
-        parameters.parameter("central_meridian").setValue(utmZoneCenterLongitude);
-        parameters.parameter("latitude_of_origin").setValue(0.0);
-        parameters.parameter("scale_factor").setValue(0.9996);
-        parameters.parameter("false_easting").setValue(500000.0);
-        parameters.parameter("false_northing").setValue(0.0);
-
-        Map<String, String> properties = Collections.singletonMap("name", "WGS 84 / UTM Zone " + zoneNumber);
-        CoordinateOperationFactory coordinateOperationFactory = ReferencingFactoryFinder.getCoordinateOperationFactory(null);
-        OperationMethod method = null;
-        Conversion definingConversion = coordinateOperationFactory.createDefiningConversion(properties, method, parameters);
-        
-        // The following is deprecated in GeoTools-15 so will not be available in future
-        ProjectedCRS projCRS = factories.createProjectedCRS(properties, geoCRS, null, parameters,
-                cartCS);
-
-        MathTransform transform = CRS.findMathTransform(geoCRS, projCRS);
-
-        double[] dest = new double[2];
-        transform.transform(new double[] { longitude, latitude }, 0, dest, 0, 1);
-
-        int easting = (int) Math.round(dest[0]);
-        int northing = (int) Math.round(dest[1]);
-
+    public final void testGeotoolsUTMMethod3() throws Exception {
+        Coordinate inputCoordinate = new Coordinate(0, 0);
+        MathTransform transform = CRS.findMathTransform(CRS.decode("EPSG:4326"), CRS.decode("EPSG:3857"), false);
+        Coordinate outputCoordinate = JTS.transform(inputCoordinate, inputCoordinate, transform); 
+        System.out.println(inputCoordinate + " transformed to " + outputCoordinate);
     }
-
 }

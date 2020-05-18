@@ -17,7 +17,7 @@
  * Originally licensed as CC-BY-SA-3.0 by user2548538 on Stack Overflow 
  * <https://stackoverflow.com/users/2548538/user2548538">
  */
-package com.github.ansell.shp;
+package com.github.ansell.utm2wgs;
 
 import java.util.Locale;
 

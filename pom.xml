@@ -6,10 +6,10 @@
 	<parent>
 		<groupId>com.github.ansell</groupId>
 		<artifactId>parentpom</artifactId>
-		<version>11</version>
+		<version>14</version>
 	</parent>
 
-	<groupId>com.github.ansell.shp</groupId>
+	<groupId>com.github.ansell.utm2wgs</groupId>
 	<artifactId>utm2wgs</artifactId>
 	<version>0.0.4-SNAPSHOT</version>
 	<name>UTM to WGS84 converter</name>
@@ -36,15 +36,15 @@
 	</developers>
 
 	<properties>
-		<geotools.version>18.0</geotools.version>
-		<junit.version>4.12</junit.version>
-		<slf4j.version>1.7.25</slf4j.version>
+		<geotools.version>23.0</geotools.version>
+		<junit.version>4.13</junit.version>
+		<slf4j.version>1.7.30</slf4j.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.geotools</groupId>
-			<artifactId>gt-api</artifactId>
+			<artifactId>gt-main</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.geotools</groupId>
@@ -76,7 +76,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.geotools</groupId>
-				<artifactId>gt-api</artifactId>
+				<artifactId>gt-main</artifactId>
 				<version>${geotools.version}</version>
 			</dependency>
 			<dependency>
@@ -148,11 +148,11 @@
 				<configuration>
 					<programs>
 						<program>
-							<mainClass>com.github.ansell.shp.UTM2WGS</mainClass>
+							<mainClass>com.github.ansell.utm2wgs.UTM2WGS</mainClass>
 							<id>utm2wgs</id>
 						</program>
 						<program>
-							<mainClass>com.github.ansell.shp.WGS2UTM</mainClass>
+							<mainClass>com.github.ansell.utm2wgs.WGS2UTM</mainClass>
 							<id>wgs2utm</id>
 						</program>
 					</programs>
@@ -170,7 +170,7 @@
 		<repository>
 			<id>osgeo</id>
 			<name>Open Source Geospatial Foundation Repository</name>
-			<url>https://download.osgeo.org/webdav/geotools/</url>
+			<url>https://repo.osgeo.org/repository/release/</url>
 		</repository>
                 <repository>
                         <id>imageio-ext-repository</id>
